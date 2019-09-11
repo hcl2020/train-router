@@ -67,9 +67,27 @@ export default class Demo extends React.Component {
 
   getCityPoint(city, address = city) {
     return new Promise((resolve, reject) => {
+      let key = '__tran_router_cache_CityPoint_' + city + '__' + address;
+      try {
+        let data = JSON.parse(localStorage.getItem(key));
+        if (data) {
+          let [lng, lat] = data;
+          return resolve(new BMap.Point(lng, lat));
+        }
+      } catch (error) {}
+
       this.geocoder.getPoint(
         address,
-        point => (point ? resolve(point) : reject()),
+        point => {
+          if (point) {
+            resolve(point);
+            // console.log({ point });
+            let { lng, lat } = point;
+            localStorage.setItem(key, JSON.stringify([lng, lat]));
+          } else {
+            reject();
+          }
+        },
         city
       );
     });
