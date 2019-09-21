@@ -3,9 +3,6 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "start nodemon ./server/bin/www && cd client && npm run start"
-  },
-  "devDependencies": {
-    "nodemon": "^1.19.2"
+    "start": "cd client && npm run start"
   }
 }
